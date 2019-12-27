@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>node服务</title>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<!-- 下面这种引入方式会报错：$ is not defined -->
+	<!-- <script type="text/javascript" src="../jquery-3.4.1.min.js"></script> -->
+</head>
+<body>
+	<div class="box">
+		用户名：<input type="text" id="user" placeholder="请输入用户名"><br/><br/>
+		密码：<input type="password" id="psd" placeholder="请输入用密码"><br/><br/>
+		<input type="button" value="注册" id="regBtn">
+		<input type="button" value="登录" id="logBtn">
+	</div>
+</body>
+<script type="text/javascript">
+	//向nodejs服务发送请求
+	$(document).ready(function(){
+		$("#regBtn").on('click',function(){
+			var params = {
+				name:$("#user").val(),
+				pasd:$("#psd").val(),
+				act:"regs" //给服务器区分接口用
+			}
+			$.ajax({
+				url:'/user',
+				type:'get',
+				data:params,
+				success:function(res){
+					// 接口返回的数据是一个字符串，需转成json格式
+					var json = eval('('+res+')')
+					console.log("注册成功:",json,json.msg)
+				},
+				error:function(err){
+					console.log("注册失败:",err)
+				}
+			})
+		})
+
+		$("#logBtn").on('click',function(){
+			var params = {
+				name:$("#user").val(),
+				pasd:$("#psd").val(),
+				act:"login"
+			}			
+			$.ajax({
+				url:'/user',
+				type:'get',
+				data:params,
+				success:function(res){
+					var jsonL = eval('('+res+')')
+					console.log("登录成功:",jsonL.msg)
+				},
+				error:function(err){
+					console.log("登录失败:",err)
+				}
+			})
+		})
+	})
+</script>
+</html>
