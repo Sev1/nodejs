@@ -1,3 +1,4 @@
+/************自己手动写************/ 
 const http = require('http');//node封装好的api
 const fs = require('fs');//文件系统 File System
 const querystring = require('querystring');//查询字符串，处理url参数
